@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { cardVariants, revealVariants, tap } from '../motion'
 import styles from './QuizScreen.module.css'
 
 // 입력값과 정답의 느슨한 일치 판단 (자가 채점 보조용)
@@ -47,7 +49,13 @@ export default function QuizScreen({ quiz, isReview = false, onExit }) {
 
       {isReview && <p className={styles.reviewHint}>📝 오답 복습 중 · 맞히면 노트에서 빠집니다</p>}
 
-      <div className={styles.card} key={current.id}>
+      <motion.div
+        className={styles.card}
+        key={current.id}
+        variants={cardVariants}
+        initial="initial"
+        animate="animate"
+      >
         <div className={styles.meta}>
           <span className={styles.chapterBadge}>{current.chapter}장</span>
           <span className={styles.qno}>문제 {current.id}</span>
@@ -65,7 +73,12 @@ export default function QuizScreen({ quiz, isReview = false, onExit }) {
             aria-label="정답 입력"
           />
         ) : (
-          <div className={styles.reveal}>
+          <motion.div
+            className={styles.reveal}
+            variants={revealVariants}
+            initial="initial"
+            animate="animate"
+          >
             {typed.trim() && (
               <div className={styles.myAnswer}>
                 <span className={styles.revealLabel}>내 답</span>
@@ -81,29 +94,31 @@ export default function QuizScreen({ quiz, isReview = false, onExit }) {
                 {hint ? '정답과 비슷해요! 👍' : '정답과 비교해 스스로 채점하세요'}
               </p>
             )}
-          </div>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
 
       <div className={styles.controls}>
         {!revealed ? (
-          <button className={styles.revealBtn} onClick={reveal}>
+          <motion.button className={styles.revealBtn} onClick={reveal} whileTap={tap}>
             정답 확인
-          </button>
+          </motion.button>
         ) : (
           <div className={styles.verdictRow}>
-            <button
+            <motion.button
               className={`${styles.verdict} ${styles.wrongBtn}`}
               onClick={() => handleMark('wrong')}
+              whileTap={tap}
             >
               ✕ 틀렸어요
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               className={`${styles.verdict} ${styles.correctBtn}`}
               onClick={() => handleMark('correct')}
+              whileTap={tap}
             >
               ○ 맞았어요
-            </button>
+            </motion.button>
           </div>
         )}
 

@@ -1,4 +1,6 @@
+import { motion } from 'framer-motion'
 import { gradeFor } from '../utils/quiz'
+import { spring, tap } from '../motion'
 import styles from './ResultScreen.module.css'
 
 export default function ResultScreen({
@@ -27,7 +29,14 @@ export default function ResultScreen({
         <p className={styles.gradeMsg}>{grade.message}</p>
 
         <div className={styles.scoreRow}>
-          <span className={styles.scoreBig}>{correct}</span>
+          <motion.span
+            className={styles.scoreBig}
+            initial={{ scale: 0.4, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ ...spring, delay: 0.15 }}
+          >
+            {correct}
+          </motion.span>
           <span className={styles.scoreTotal}>/ {total}</span>
         </div>
         <p className={styles.percent}>정답률 {percent}%</p>
@@ -68,25 +77,29 @@ export default function ResultScreen({
         {!isReview && (
           <div className={styles.actionRow}>
             {onStudyAgain && (
-              <button className={styles.study} onClick={onStudyAgain}>
+              <motion.button className={styles.study} onClick={onStudyAgain} whileTap={tap}>
                 📖 다시 학습
-              </button>
+              </motion.button>
             )}
-            <button className={styles.retry} onClick={onRetry}>
+            <motion.button className={styles.retry} onClick={onRetry} whileTap={tap}>
               다시 도전
-            </button>
+            </motion.button>
           </div>
         )}
 
         {wrongIds.length > 0 && onRetryWrong && (
-          <button className={styles.retryWrong} onClick={() => onRetryWrong(wrongIds)}>
+          <motion.button
+            className={styles.retryWrong}
+            onClick={() => onRetryWrong(wrongIds)}
+            whileTap={tap}
+          >
             ❌ 틀린 문제만 다시 ({wrongIds.length})
-          </button>
+          </motion.button>
         )}
 
-        <button className={styles.home} onClick={onHome}>
+        <motion.button className={styles.home} onClick={onHome} whileTap={tap}>
           홈으로
-        </button>
+        </motion.button>
       </div>
     </div>
   )

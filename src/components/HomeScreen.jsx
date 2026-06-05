@@ -1,4 +1,6 @@
+import { motion } from 'framer-motion'
 import { TOTAL_QUESTIONS } from '../data/questions'
+import { tap } from '../motion'
 import styles from './HomeScreen.module.css'
 
 export default function HomeScreen({
@@ -30,21 +32,21 @@ export default function HomeScreen({
       {error && <p className={styles.error}>{error}</p>}
 
       <div className={styles.actions}>
-        <button className={styles.primary} onClick={onStudy}>
+        <motion.button className={styles.primary} onClick={onStudy} whileTap={tap}>
           📖 학습하기
           <span className={styles.primaryHint}>정답을 보며 익힌 뒤 문제 풀기</span>
-        </button>
+        </motion.button>
 
-        <button className={styles.secondary} onClick={onQuiz}>
+        <motion.button className={styles.secondary} onClick={onQuiz} whileTap={tap}>
           ✏️ 바로 문제 풀기
           <span className={styles.secondaryHint}>학습 없이 곧장 도전</span>
-        </button>
+        </motion.button>
 
         {wrongCount > 0 && (
-          <button className={styles.wrongNote} onClick={onReviewWrong}>
+          <motion.button className={styles.wrongNote} onClick={onReviewWrong} whileTap={tap}>
             <span>📝 오답 노트 복습</span>
             <span className={styles.wrongCount}>{wrongCount}문제</span>
-          </button>
+          </motion.button>
         )}
 
         <button

@@ -1,5 +1,7 @@
+import { motion } from 'framer-motion'
 import { CHAPTERS, TOTAL_QUESTIONS } from '../data/questions'
 import { scopeKey } from '../utils/storage'
+import { staggerContainer, staggerItem, tap } from '../motion'
 import styles from './ChapterSelect.module.css'
 
 // 진도 뱃지: 100% → ⭐, 시도했으면 최고% , 없으면 표시 안 함
@@ -27,23 +29,34 @@ export default function ChapterSelect({ mode = 'study', progress = {}, onBack, o
 
       <p className={styles.guide}>{guide}</p>
 
-      <button className={styles.allCard} onClick={() => onSelect(null)}>
+      <motion.button className={styles.allCard} onClick={() => onSelect(null)} whileTap={tap}>
         <span className={styles.allLabel}>전체</span>
         <span className={styles.allCount}>{TOTAL_QUESTIONS}문제 · 1~16장</span>
-      </button>
+      </motion.button>
 
-      <div className={styles.grid}>
+      <motion.div
+        className={styles.grid}
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+      >
         {CHAPTERS.map(({ chapter, count }) => {
           const entry = progress[scopeKey(chapter)]
           return (
-            <button key={chapter} className={styles.card} onClick={() => onSelect(chapter)}>
+            <motion.button
+              key={chapter}
+              className={styles.card}
+              onClick={() => onSelect(chapter)}
+              variants={staggerItem}
+              whileTap={tap}
+            >
               <Badge entry={entry} />
               <span className={styles.chapterNo}>{chapter}장</span>
               <span className={styles.count}>{count}문제</span>
-            </button>
+            </motion.button>
           )
         })}
-      </div>
+      </motion.div>
     </div>
   )
 }

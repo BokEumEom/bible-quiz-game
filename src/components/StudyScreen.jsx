@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { cardVariants, tap } from '../motion'
 import styles from './StudyScreen.module.css'
 
 // 학습 모드: 문제와 정답을 함께 보며 익힌다. 채점은 없다.
@@ -31,7 +33,13 @@ export default function StudyScreen({ questions, onStartQuiz, onHome }) {
 
       <p className={styles.modeHint}>📖 학습 모드 · 정답을 확인하며 익히세요</p>
 
-      <div className={styles.card} key={current.id}>
+      <motion.div
+        className={styles.card}
+        key={current.id}
+        variants={cardVariants}
+        initial="initial"
+        animate="animate"
+      >
         <div className={styles.meta}>
           <span className={styles.chapterBadge}>{current.chapter}장</span>
           <span className={styles.qno}>문제 {current.id}</span>
@@ -43,7 +51,7 @@ export default function StudyScreen({ questions, onStartQuiz, onHome }) {
           <span className={styles.answerLabel}>정답</span>
           <p className={styles.answer}>{current.answer}</p>
         </div>
-      </div>
+      </motion.div>
 
       <div className={styles.controls}>
         <div className={styles.navRow}>
@@ -55,9 +63,9 @@ export default function StudyScreen({ questions, onStartQuiz, onHome }) {
           </button>
         </div>
 
-        <button className={styles.quizBtn} onClick={onStartQuiz}>
+        <motion.button className={styles.quizBtn} onClick={onStartQuiz} whileTap={tap}>
           {isLast ? '학습 끝! 문제 풀기' : '문제 풀기 시작'}
-        </button>
+        </motion.button>
       </div>
     </div>
   )

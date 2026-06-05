@@ -8,6 +8,14 @@
   position: relative;
 }
 
+/* AnimatePresence 가 감싸는 화면 래퍼 — 내부 레이아웃이 높이를 채우도록 */
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 /* 데스크톱에서는 폰 모양 카드처럼 살짝 띄워준다 */
 @media (min-width: 540px) {
   .shell {

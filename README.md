@@ -73,8 +73,9 @@ src/
 ## 🛠 기술 스택
 
 - **React 18** + **Vite 5**
+- **framer-motion** — 화면 전환·문제 카드·정답 공개·결과 팝 애니메이션 (움직임 줄이기 자동 존중)
 - **CSS Modules** + CSS 변수 디자인 토큰
-- **Vitest** + **React Testing Library** (테스트 21개)
+- **Vitest** + **React Testing Library** (테스트 30개)
 - **Pretendard** 웹폰트
 
 ## 🎨 디자인

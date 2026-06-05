@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion, MotionConfig } from 'framer-motion'
 import { useQuiz } from './hooks/useQuiz'
 import { buildQuestionSet, questionsByIds } from './utils/quiz'
 import { getProgress, getWrongIds, recordResult, updateWrongNote } from './utils/storage'
+import { screenVariants } from './motion'
 import HomeScreen from './components/HomeScreen'
 import ChapterSelect from './components/ChapterSelect'
 import StudyScreen from './components/StudyScreen'
@@ -113,56 +115,78 @@ export default function App() {
     setScreen('home')
   }, [quiz])
 
+  const renderScreen = () => {
+    switch (screen) {
+      case 'home':
+        return (
+          <HomeScreen
+            shouldShuffle={shouldShuffle}
+            error={error}
+            progress={progress}
+            wrongCount={wrongIds.length}
+            onToggleShuffle={() => setShouldShuffle((prev) => !prev)}
+            onStudy={() => {
+              setMode('study')
+              setScreen('scope')
+            }}
+            onQuiz={() => {
+              setMode('quiz')
+              setScreen('scope')
+            }}
+            onReviewWrong={() => startWrongQuiz(wrongIds)}
+          />
+        )
+      case 'scope':
+        return (
+          <ChapterSelect mode={mode} progress={progress} onBack={goHome} onSelect={onScopeSelect} />
+        )
+      case 'study':
+        return (
+          <StudyScreen
+            questions={studyQuestions}
+            onStartQuiz={() => startQuizScope(scopeChapter)}
+            onHome={goHome}
+          />
+        )
+      case 'quiz':
+        return quiz.current ? (
+          <QuizScreen quiz={quiz} isReview={scopeKind === 'wrong'} onExit={goHome} />
+        ) : null
+      case 'result':
+        return (
+          <ResultScreen
+            score={quiz.score}
+            total={quiz.total}
+            questions={quiz.questions}
+            answers={quiz.answers}
+            isReview={scopeKind === 'wrong'}
+            onRetry={() => startQuizScope(scopeChapter)}
+            onRetryWrong={(ids) => startWrongQuiz(ids)}
+            onStudyAgain={() => startStudy(scopeChapter)}
+            onHome={goHome}
+          />
+        )
+      default:
+        return null
+    }
+  }
+
   return (
-    <div className={styles.shell}>
-      {screen === 'home' && (
-        <HomeScreen
-          shouldShuffle={shouldShuffle}
-          error={error}
-          progress={progress}
-          wrongCount={wrongIds.length}
-          onToggleShuffle={() => setShouldShuffle((prev) => !prev)}
-          onStudy={() => {
-            setMode('study')
-            setScreen('scope')
-          }}
-          onQuiz={() => {
-            setMode('quiz')
-            setScreen('scope')
-          }}
-          onReviewWrong={() => startWrongQuiz(wrongIds)}
-        />
-      )}
-
-      {screen === 'scope' && (
-        <ChapterSelect mode={mode} progress={progress} onBack={goHome} onSelect={onScopeSelect} />
-      )}
-
-      {screen === 'study' && (
-        <StudyScreen
-          questions={studyQuestions}
-          onStartQuiz={() => startQuizScope(scopeChapter)}
-          onHome={goHome}
-        />
-      )}
-
-      {screen === 'quiz' && quiz.current && (
-        <QuizScreen quiz={quiz} isReview={scopeKind === 'wrong'} onExit={goHome} />
-      )}
-
-      {screen === 'result' && (
-        <ResultScreen
-          score={quiz.score}
-          total={quiz.total}
-          questions={quiz.questions}
-          answers={quiz.answers}
-          isReview={scopeKind === 'wrong'}
-          onRetry={() => startQuizScope(scopeChapter)}
-          onRetryWrong={(ids) => startWrongQuiz(ids)}
-          onStudyAgain={() => startStudy(scopeChapter)}
-          onHome={goHome}
-        />
-      )}
-    </div>
+    <MotionConfig reducedMotion="user">
+      <div className={styles.shell}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={screen}
+            className={styles.screen}
+            variants={screenVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            {renderScreen()}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </MotionConfig>
   )
 }
