@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { slideTransition, tap } from '../motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import { slideVariants, tap } from '../motion'
 import styles from './StudyScreen.module.css'
 
 // 학습 모드: 문제와 정답을 함께 보며 익힌다. 채점은 없다.
@@ -40,25 +40,31 @@ export default function StudyScreen({ questions, onStartQuiz, onHome }) {
 
       <p className={styles.modeHint}>📖 학습 모드 · 정답을 확인하며 익히세요</p>
 
-      <motion.div
-        className={styles.card}
-        key={current.id}
-        initial={{ opacity: 0, x: direction * 56 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={slideTransition}
-      >
-        <div className={styles.meta}>
-          <span className={styles.chapterBadge}>{current.chapter}장</span>
-          <span className={styles.qno}>문제 {current.id}</span>
-        </div>
+      <div className={styles.cardArea}>
+        <AnimatePresence mode="popLayout" custom={direction} initial={false}>
+          <motion.div
+            className={styles.card}
+            key={current.id}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+          >
+            <div className={styles.meta}>
+              <span className={styles.chapterBadge}>{current.chapter}장</span>
+              <span className={styles.qno}>문제 {current.id}</span>
+            </div>
 
-        <p className={styles.question}>{current.question}</p>
+            <p className={styles.question}>{current.question}</p>
 
-        <div className={styles.answerBox}>
-          <span className={styles.answerLabel}>정답</span>
-          <p className={styles.answer}>{current.answer}</p>
-        </div>
-      </motion.div>
+            <div className={styles.answerBox}>
+              <span className={styles.answerLabel}>정답</span>
+              <p className={styles.answer}>{current.answer}</p>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       <div className={styles.controls}>
         <div className={styles.navRow}>

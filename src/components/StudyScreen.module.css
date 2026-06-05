@@ -56,6 +56,17 @@
   margin-bottom: 16px;
 }
 
+/* 슬라이드 전환을 담는 뷰포트 — 좌우로 나가는 카드를 잘라낸다 */
+.cardArea {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 0 -4px;
+  padding: 0 4px;
+}
+
 .card {
   flex: 1;
   display: flex;

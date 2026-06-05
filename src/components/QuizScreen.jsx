@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { revealVariants, slideTransition, tap } from '../motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import { revealVariants, slideVariants, tap } from '../motion'
 import styles from './QuizScreen.module.css'
 
 // 입력값과 정답의 느슨한 일치 판단 (자가 채점 보조용)
@@ -52,54 +52,60 @@ export default function QuizScreen({ quiz, isReview = false, onExit }) {
 
       {isReview && <p className={styles.reviewHint}>📝 오답 복습 중 · 맞히면 노트에서 빠집니다</p>}
 
-      <motion.div
-        className={styles.card}
-        key={current.id}
-        initial={{ opacity: 0, x: direction * 56 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={slideTransition}
-      >
-        <div className={styles.meta}>
-          <span className={styles.chapterBadge}>{current.chapter}장</span>
-          <span className={styles.qno}>문제 {current.id}</span>
-        </div>
-
-        <p className={styles.question}>{current.question}</p>
-
-        {!revealed ? (
-          <textarea
-            className={styles.board}
-            value={typed}
-            onChange={(e) => setTyped(e.target.value)}
-            placeholder="정답을 적어보세요 (선택)"
-            rows={2}
-            aria-label="정답 입력"
-          />
-        ) : (
+      <div className={styles.cardArea}>
+        <AnimatePresence mode="popLayout" custom={direction} initial={false}>
           <motion.div
-            className={styles.reveal}
-            variants={revealVariants}
-            initial="initial"
-            animate="animate"
+            className={styles.card}
+            key={current.id}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
           >
-            {typed.trim() && (
-              <div className={styles.myAnswer}>
-                <span className={styles.revealLabel}>내 답</span>
-                <p className={styles.myAnswerText}>{typed.trim()}</p>
-              </div>
-            )}
-            <div className={styles.answerBox}>
-              <span className={styles.answerLabel}>정답</span>
-              <p className={styles.answer}>{current.answer}</p>
+            <div className={styles.meta}>
+              <span className={styles.chapterBadge}>{current.chapter}장</span>
+              <span className={styles.qno}>문제 {current.id}</span>
             </div>
-            {hint !== null && (
-              <p className={hint ? styles.hintMatch : styles.hintMiss}>
-                {hint ? '정답과 비슷해요! 👍' : '정답과 비교해 스스로 채점하세요'}
-              </p>
+
+            <p className={styles.question}>{current.question}</p>
+
+            {!revealed ? (
+              <textarea
+                className={styles.board}
+                value={typed}
+                onChange={(e) => setTyped(e.target.value)}
+                placeholder="정답을 적어보세요 (선택)"
+                rows={2}
+                aria-label="정답 입력"
+              />
+            ) : (
+              <motion.div
+                className={styles.reveal}
+                variants={revealVariants}
+                initial="initial"
+                animate="animate"
+              >
+                {typed.trim() && (
+                  <div className={styles.myAnswer}>
+                    <span className={styles.revealLabel}>내 답</span>
+                    <p className={styles.myAnswerText}>{typed.trim()}</p>
+                  </div>
+                )}
+                <div className={styles.answerBox}>
+                  <span className={styles.answerLabel}>정답</span>
+                  <p className={styles.answer}>{current.answer}</p>
+                </div>
+                {hint !== null && (
+                  <p className={hint ? styles.hintMatch : styles.hintMiss}>
+                    {hint ? '정답과 비슷해요! 👍' : '정답과 비교해 스스로 채점하세요'}
+                  </p>
+                )}
+              </motion.div>
             )}
           </motion.div>
-        )}
-      </motion.div>
+        </AnimatePresence>
+      </div>
 
       <div className={styles.controls}>
         {!revealed ? (

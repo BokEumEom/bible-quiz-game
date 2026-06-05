@@ -10,9 +10,15 @@ export const screenVariants = {
   exit: { opacity: 0, x: -20, transition: { duration: 0.18, ease: 'easeIn' } }
 }
 
-// 문제 카드 전환: 다음/이전 방향에 따라 좌우에서 슬라이드 인
-// (key 기반 재마운트 + 방향값으로 initial x 결정)
-export const slideTransition = { duration: 0.3, ease: 'easeOut' }
+// 문제 카드 전환: 기존 카드는 한쪽으로 나가고 새 카드는 반대쪽에서 들어온다.
+// 깜박임 없이 좌우 슬라이드만 (opacity 변화 없음). custom = 방향(1 다음 / -1 이전)
+export const slideTransition = { duration: 0.32, ease: [0.4, 0, 0.2, 1] }
+
+export const slideVariants = {
+  enter: (dir) => ({ x: dir >= 0 ? '100%' : '-100%' }),
+  center: { x: 0, transition: slideTransition },
+  exit: (dir) => ({ x: dir >= 0 ? '-100%' : '100%', transition: slideTransition })
+}
 
 // 정답 공개: 스프링으로 살짝 튀어오름
 export const revealVariants = {
