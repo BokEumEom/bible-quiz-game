@@ -53,6 +53,43 @@
   font-weight: 700;
 }
 
+.bestLine {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold-deep);
+  background: var(--gold-soft);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.wrongNote {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+  border: 1px solid rgba(224, 83, 61, 0.35);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+  transition: transform 0.12s ease;
+}
+
+.wrongNote:active {
+  transform: scale(0.98);
+}
+
+.wrongCount {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--wrong);
+  background: var(--wrong-bg);
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
 .error {
   font-size: 14px;
   color: var(--wrong);

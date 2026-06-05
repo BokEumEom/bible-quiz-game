@@ -20,8 +20,9 @@ React 18 + Vite 5 로 만든 반응형 모바일 성경 퀴즈 앱. 고린도전
 ```
 src/
   data/questions.js     100문제 (id = PDF 문제번호), CHAPTERS 분포
-  utils/quiz.js         shuffle · buildQuestionSet · gradeFor (순수 함수)
-  hooks/useQuiz.js      퀴즈 한 판 상태 머신 (불변 갱신)
+  utils/quiz.js         shuffle · buildQuestionSet · questionsByIds · gradeFor (순수 함수)
+  utils/storage.js      localStorage 진도(최고점)·오답노트 저장 계층
+  hooks/useQuiz.js      퀴즈 한 판 상태 머신 (불변 갱신, 명시적 문제목록 지원)
   components/           Home / ChapterSelect / Study / Quiz / Result + 각 .module.css
   App.jsx               화면 전환 (home → scope → study → quiz → result)
   index.css             디자인 토큰(CSS 변수) + 리셋 + 애니메이션

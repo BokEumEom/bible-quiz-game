@@ -188,6 +188,22 @@
   color: var(--gold-deep);
 }
 
+.retryWrong {
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--radius);
+  font-size: 16px;
+  font-weight: 700;
+  background: var(--wrong-bg);
+  border: 1px solid rgba(224, 83, 61, 0.4);
+  color: var(--wrong);
+  transition: transform 0.12s ease;
+}
+
+.retryWrong:active {
+  transform: scale(0.98);
+}
+
 .home {
   width: 100%;
   background: var(--surface-strong);

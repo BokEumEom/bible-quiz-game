@@ -50,6 +50,13 @@
   text-align: right;
 }
 
+.reviewHint {
+  font-size: 13px;
+  color: var(--wrong);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
 .card {
   flex: 1;
   display: flex;
@@ -92,32 +99,87 @@
   flex: 1;
 }
 
-.answerBox {
+/* 골든벨 보드 입력 (정답 공개 전) */
+.board {
   margin-top: 20px;
-  border-radius: var(--radius-sm);
+  width: 100%;
+  resize: none;
+  font: inherit;
+  font-size: 17px;
+  color: var(--text);
+  background: var(--surface);
   border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  line-height: 1.4;
+}
+
+.board::placeholder {
+  color: var(--text-dim);
+}
+
+.board:focus {
+  outline: none;
+  border-style: solid;
+  border-color: var(--gold-strong);
+  background: var(--surface-strong);
+}
+
+.reveal {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeUp 0.3s ease both;
+}
+
+.myAnswer {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 14px 16px;
+  text-align: center;
+}
+
+.revealLabel {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.myAnswerText {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  word-break: keep-all;
+}
+
+.answerBox {
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  background: var(--gold-soft);
   padding: 18px;
-  min-height: 72px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  transition:
-    background 0.25s ease,
-    border-color 0.25s ease;
 }
 
-.answerShown {
-  border-style: solid;
-  border-color: rgba(245, 158, 11, 0.5);
-  background: var(--gold-soft);
-  animation: fadeUp 0.3s ease both;
-}
-
-.answerHint {
+.hintMatch {
   font-size: 14px;
+  font-weight: 600;
+  color: var(--correct);
+  text-align: center;
+}
+
+.hintMiss {
+  font-size: 13px;
   color: var(--text-dim);
+  text-align: center;
 }
 
 .answerLabel {

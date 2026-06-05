@@ -11,21 +11,31 @@ export function useQuiz() {
   const [answers, setAnswers] = useState({})
   const [error, setError] = useState(null)
 
-  const start = useCallback(({ chapter = null, shouldShuffle = false } = {}) => {
-    try {
-      const set = buildQuestionSet({ chapter, shouldShuffle })
-      setQuestions(set)
-      setIndex(0)
-      setRevealed(false)
-      setAnswers({})
-      setError(null)
-      return true
-    } catch (caught) {
-      console.error('퀴즈 시작 실패:', caught)
-      setError(caught instanceof Error ? caught.message : '퀴즈를 시작할 수 없습니다.')
-      return false
-    }
-  }, [])
+  const start = useCallback(
+    ({ chapter = null, shouldShuffle = false, questions: explicit = null } = {}) => {
+      try {
+        // explicit 목록이 오면 그대로 사용(오답노트·틀린것만), 아니면 범위로 생성
+        const set =
+          explicit && explicit.length > 0
+            ? [...explicit]
+            : buildQuestionSet({ chapter, shouldShuffle })
+        if (set.length === 0) {
+          throw new Error('풀 수 있는 문제가 없습니다.')
+        }
+        setQuestions(set)
+        setIndex(0)
+        setRevealed(false)
+        setAnswers({})
+        setError(null)
+        return true
+      } catch (caught) {
+        console.error('퀴즈 시작 실패:', caught)
+        setError(caught instanceof Error ? caught.message : '퀴즈를 시작할 수 없습니다.')
+        return false
+      }
+    },
+    []
+  )
 
   const reveal = useCallback(() => setRevealed(true), [])
 

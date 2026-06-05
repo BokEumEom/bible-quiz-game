@@ -26,6 +26,12 @@ export function buildQuestionSet({ chapter = null, shouldShuffle = false } = {})
   return shouldShuffle ? shuffle(filtered) : [...filtered]
 }
 
+// 주어진 id 목록에 해당하는 문제들을 원본 순서로 반환한다 (오답노트·틀린것만 다시 풀기용).
+export function questionsByIds(ids) {
+  const set = new Set(ids)
+  return QUESTIONS.filter((item) => set.has(item.id))
+}
+
 // 점수에 따른 등급/격려 메시지.
 export function gradeFor(correct, total) {
   if (total === 0) {

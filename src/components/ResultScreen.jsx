@@ -6,13 +6,16 @@ export default function ResultScreen({
   total,
   questions,
   answers,
+  isReview = false,
   onRetry,
+  onRetryWrong,
   onStudyAgain,
   onHome
 }) {
   const { correct } = score
   const percent = total > 0 ? Math.round((correct / total) * 100) : 0
   const grade = gradeFor(correct, total)
+  const wrongIds = questions.filter((q) => answers[q.id] === 'wrong').map((q) => q.id)
 
   return (
     <div className={styles.wrap}>
@@ -62,16 +65,25 @@ export default function ResultScreen({
       </div>
 
       <div className={styles.actions}>
-        <div className={styles.actionRow}>
-          {onStudyAgain && (
-            <button className={styles.study} onClick={onStudyAgain}>
-              📖 다시 학습
+        {!isReview && (
+          <div className={styles.actionRow}>
+            {onStudyAgain && (
+              <button className={styles.study} onClick={onStudyAgain}>
+                📖 다시 학습
+              </button>
+            )}
+            <button className={styles.retry} onClick={onRetry}>
+              다시 도전
             </button>
-          )}
-          <button className={styles.retry} onClick={onRetry}>
-            다시 도전
+          </div>
+        )}
+
+        {wrongIds.length > 0 && onRetryWrong && (
+          <button className={styles.retryWrong} onClick={() => onRetryWrong(wrongIds)}>
+            ❌ 틀린 문제만 다시 ({wrongIds.length})
           </button>
-        </div>
+        )}
+
         <button className={styles.home} onClick={onHome}>
           홈으로
         </button>

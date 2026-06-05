@@ -1,7 +1,18 @@
 import { TOTAL_QUESTIONS } from '../data/questions'
 import styles from './HomeScreen.module.css'
 
-export default function HomeScreen({ shouldShuffle, error, onToggleShuffle, onStudy, onQuiz }) {
+export default function HomeScreen({
+  shouldShuffle,
+  error,
+  progress,
+  wrongCount,
+  onToggleShuffle,
+  onStudy,
+  onQuiz,
+  onReviewWrong
+}) {
+  const best = progress?.all?.best
+
   return (
     <div className={styles.home}>
       <div className={styles.hero}>
@@ -13,6 +24,7 @@ export default function HomeScreen({ shouldShuffle, error, onToggleShuffle, onSt
         <p className={styles.subtitle}>
           말씀으로 도전하는 <strong>{TOTAL_QUESTIONS}문제</strong>
         </p>
+        {typeof best === 'number' && <p className={styles.bestLine}>전체 최고 정답률 {best}%</p>}
       </div>
 
       {error && <p className={styles.error}>{error}</p>}
@@ -27,6 +39,13 @@ export default function HomeScreen({ shouldShuffle, error, onToggleShuffle, onSt
           ✏️ 바로 문제 풀기
           <span className={styles.secondaryHint}>학습 없이 곧장 도전</span>
         </button>
+
+        {wrongCount > 0 && (
+          <button className={styles.wrongNote} onClick={onReviewWrong}>
+            <span>📝 오답 노트 복습</span>
+            <span className={styles.wrongCount}>{wrongCount}문제</span>
+          </button>
+        )}
 
         <button
           type="button"

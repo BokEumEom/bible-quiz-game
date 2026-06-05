@@ -1,9 +1,17 @@
 import { CHAPTERS, TOTAL_QUESTIONS } from '../data/questions'
+import { scopeKey } from '../utils/storage'
 import styles from './ChapterSelect.module.css'
+
+// 진도 뱃지: 100% → ⭐, 시도했으면 최고% , 없으면 표시 안 함
+function Badge({ entry }) {
+  if (!entry) return null
+  if (entry.best >= 100) return <span className={styles.badgeStar}>⭐</span>
+  return <span className={styles.badgePct}>{entry.best}%</span>
+}
 
 // mode: 'study' | 'quiz' — 선택 후 이어질 행동에 맞춰 문구를 바꾼다.
 // onSelect(chapter): chapter 가 null 이면 전체 범위.
-export default function ChapterSelect({ mode = 'study', onBack, onSelect }) {
+export default function ChapterSelect({ mode = 'study', progress = {}, onBack, onSelect }) {
   const isStudy = mode === 'study'
   const heading = isStudy ? '학습할 범위' : '풀 범위'
   const guide = isStudy ? '익히고 싶은 범위를 선택하세요' : '풀고 싶은 범위를 선택하세요'
@@ -25,12 +33,16 @@ export default function ChapterSelect({ mode = 'study', onBack, onSelect }) {
       </button>
 
       <div className={styles.grid}>
-        {CHAPTERS.map(({ chapter, count }) => (
-          <button key={chapter} className={styles.card} onClick={() => onSelect(chapter)}>
-            <span className={styles.chapterNo}>{chapter}장</span>
-            <span className={styles.count}>{count}문제</span>
-          </button>
-        ))}
+        {CHAPTERS.map(({ chapter, count }) => {
+          const entry = progress[scopeKey(chapter)]
+          return (
+            <button key={chapter} className={styles.card} onClick={() => onSelect(chapter)}>
+              <Badge entry={entry} />
+              <span className={styles.chapterNo}>{chapter}장</span>
+              <span className={styles.count}>{count}문제</span>
+            </button>
+          )
+        })}
       </div>
     </div>
   )
