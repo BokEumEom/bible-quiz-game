@@ -53,6 +53,16 @@
   font-weight: 700;
 }
 
+.error {
+  font-size: 14px;
+  color: var(--wrong);
+  background: var(--wrong-bg);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
 .actions {
   display: flex;
   flex-direction: column;

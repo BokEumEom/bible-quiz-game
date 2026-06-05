@@ -1,7 +1,8 @@
 # 고린도전서 성경 골든벨
 
-React 18 + Vite 5 로 만든 반응형 모바일 성경 퀴즈 앱. 고린도전서 1~16장 100문제를
-골든벨(문제 보기 → 정답 확인 → 자가 채점) 방식으로 푼다.
+React 18 + Vite 5 로 만든 반응형 모바일 성경 퀴즈 앱. 고린도전서 1~16장 100문제.
+흐름: 홈 → 범위 선택 → 학습(문제+정답 함께 보기) → 문제 풀기(자가 채점) → 결과.
+"바로 문제 풀기"로 학습을 건너뛸 수도 있다. 테마는 골든아워 크림(밝고 따뜻한 톤).
 
 ## 명령어
 
@@ -21,8 +22,8 @@ src/
   data/questions.js     100문제 (id = PDF 문제번호), CHAPTERS 분포
   utils/quiz.js         shuffle · buildQuestionSet · gradeFor (순수 함수)
   hooks/useQuiz.js      퀴즈 한 판 상태 머신 (불변 갱신)
-  components/           Home / ChapterSelect / Quiz / Result + 각 .module.css
-  App.jsx               화면 전환 (home → chapter → quiz → result)
+  components/           Home / ChapterSelect / Study / Quiz / Result + 각 .module.css
+  App.jsx               화면 전환 (home → scope → study → quiz → result)
   index.css             디자인 토큰(CSS 변수) + 리셋 + 애니메이션
 ```
 

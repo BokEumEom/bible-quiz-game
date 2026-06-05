@@ -1,7 +1,15 @@
 import { gradeFor } from '../utils/quiz'
 import styles from './ResultScreen.module.css'
 
-export default function ResultScreen({ score, total, questions, answers, onRetry, onHome }) {
+export default function ResultScreen({
+  score,
+  total,
+  questions,
+  answers,
+  onRetry,
+  onStudyAgain,
+  onHome
+}) {
   const { correct } = score
   const percent = total > 0 ? Math.round((correct / total) * 100) : 0
   const grade = gradeFor(correct, total)
@@ -54,9 +62,16 @@ export default function ResultScreen({ score, total, questions, answers, onRetry
       </div>
 
       <div className={styles.actions}>
-        <button className={styles.retry} onClick={onRetry}>
-          다시 도전
-        </button>
+        <div className={styles.actionRow}>
+          {onStudyAgain && (
+            <button className={styles.study} onClick={onStudyAgain}>
+              📖 다시 학습
+            </button>
+          )}
+          <button className={styles.retry} onClick={onRetry}>
+            다시 도전
+          </button>
+        </div>
         <button className={styles.home} onClick={onHome}>
           홈으로
         </button>

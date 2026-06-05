@@ -1,12 +1,7 @@
 import { TOTAL_QUESTIONS } from '../data/questions'
 import styles from './HomeScreen.module.css'
 
-export default function HomeScreen({
-  shouldShuffle,
-  onToggleShuffle,
-  onStartAll,
-  onChooseChapter
-}) {
+export default function HomeScreen({ shouldShuffle, error, onToggleShuffle, onStudy, onQuiz }) {
   return (
     <div className={styles.home}>
       <div className={styles.hero}>
@@ -20,15 +15,17 @@ export default function HomeScreen({
         </p>
       </div>
 
+      {error && <p className={styles.error}>{error}</p>}
+
       <div className={styles.actions}>
-        <button className={styles.primary} onClick={onStartAll}>
-          전체 도전 시작
-          <span className={styles.primaryHint}>{TOTAL_QUESTIONS}문제 전체</span>
+        <button className={styles.primary} onClick={onStudy}>
+          📖 학습하기
+          <span className={styles.primaryHint}>정답을 보며 익힌 뒤 문제 풀기</span>
         </button>
 
-        <button className={styles.secondary} onClick={onChooseChapter}>
-          장별로 풀기
-          <span className={styles.secondaryHint}>1장 ~ 16장 선택</span>
+        <button className={styles.secondary} onClick={onQuiz}>
+          ✏️ 바로 문제 풀기
+          <span className={styles.secondaryHint}>학습 없이 곧장 도전</span>
         </button>
 
         <button

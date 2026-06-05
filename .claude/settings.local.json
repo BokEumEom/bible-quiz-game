@@ -6,7 +6,9 @@
       "Bash(claude mcp *)",
       "Bash(.claude/hooks/block-generated.sh)",
       "Bash(echo \"exit=$?\")",
-      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'feat: 고린도전서 성경 골든벨 퀴즈 앱 + Claude Code 자동화 설정 *)"
+      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'feat: 고린도전서 성경 골든벨 퀴즈 앱 + Claude Code 자동화 설정 *)",
+      "Bash(grep -vE \"unchanged|^$|prettier|corinthians\")",
+      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'feat: 학습 후 문제 풀기 흐름 추가 *)"
     ]
   }
 }

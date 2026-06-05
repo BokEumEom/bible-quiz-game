@@ -155,10 +155,17 @@
 
 .actions {
   display: flex;
+  flex-direction: column;
   gap: 12px;
   margin-top: 18px;
 }
 
+.actionRow {
+  display: flex;
+  gap: 12px;
+}
+
+.study,
 .retry,
 .home {
   flex: 1;
@@ -175,12 +182,20 @@
   box-shadow: 0 8px 22px rgba(245, 180, 35, 0.3);
 }
 
+.study {
+  background: var(--gold-soft);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: var(--gold-deep);
+}
+
 .home {
+  width: 100%;
   background: var(--surface-strong);
   border: 1px solid var(--border);
   color: var(--text);
 }
 
+.study:active,
 .retry:active,
 .home:active {
   transform: scale(0.97);
