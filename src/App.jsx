@@ -115,6 +115,18 @@ export default function App() {
     setScreen('home')
   }, [quiz])
 
+  // 퀴즈 중도 종료(✕): 끝까지 안 풀어도 지금까지 채점한 오답을 노트에 반영한다.
+  const exitQuiz = useCallback(() => {
+    const wrong = quiz.questions.filter((q) => quiz.answers[q.id] === 'wrong').map((q) => q.id)
+    const corrected = quiz.questions
+      .filter((q) => quiz.answers[q.id] === 'correct')
+      .map((q) => q.id)
+    if (wrong.length > 0 || corrected.length > 0) {
+      updateWrongNote(wrong, corrected)
+    }
+    goHome()
+  }, [quiz.questions, quiz.answers, goHome])
+
   const renderScreen = () => {
     switch (screen) {
       case 'home':
@@ -150,7 +162,7 @@ export default function App() {
         )
       case 'quiz':
         return quiz.current ? (
-          <QuizScreen quiz={quiz} isReview={scopeKind === 'wrong'} onExit={goHome} />
+          <QuizScreen quiz={quiz} isReview={scopeKind === 'wrong'} onExit={exitQuiz} />
         ) : null
       case 'result':
         return (
