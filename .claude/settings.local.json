@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm i *)",
+      "Bash(chmod +x /mnt/c/Users/bokma/react/.claude/hooks/block-generated.sh)",
+      "Bash(claude mcp *)",
+      "Bash(.claude/hooks/block-generated.sh)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'feat: 고린도전서 성경 골든벨 퀴즈 앱 + Claude Code 자동화 설정 *)"
+    ]
+  }
+}
