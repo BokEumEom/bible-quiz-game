@@ -21,7 +21,7 @@
 .gradeTitle {
   font-size: 26px;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-strong) 100%);
+  background: linear-gradient(135deg, var(--gold-strong) 0%, var(--gold-deep) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -44,7 +44,7 @@
 .scoreBig {
   font-size: 56px;
   font-weight: 800;
-  color: var(--gold);
+  color: var(--gold-strong);
   line-height: 1;
 }
 
@@ -91,7 +91,7 @@
   display: flex;
   gap: 10px;
   padding: 10px 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(67, 50, 31, 0.08);
 }
 
 .item:last-child {
@@ -123,7 +123,7 @@
 
 .markSkip {
   color: var(--text-dim);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(67, 50, 31, 0.06);
 }
 
 .itemBody {
@@ -141,13 +141,13 @@
 .itemChapter {
   font-size: 11px;
   font-weight: 700;
-  color: var(--gold-strong);
+  color: var(--gold-deep);
   margin-right: 6px;
 }
 
 .itemA {
   font-size: 13px;
-  color: var(--gold);
+  color: var(--gold-deep);
   font-weight: 600;
   margin-top: 3px;
   word-break: keep-all;
@@ -171,7 +171,7 @@
 
 .retry {
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-strong) 100%);
-  color: #3a2400;
+  color: var(--on-accent);
   box-shadow: 0 8px 22px rgba(245, 180, 35, 0.3);
 }
 

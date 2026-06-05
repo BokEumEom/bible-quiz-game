@@ -30,7 +30,7 @@
   flex: 1;
   height: 8px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(67, 50, 31, 0.1);
   overflow: hidden;
 }
 
@@ -71,7 +71,7 @@
 .chapterBadge {
   font-size: 13px;
   font-weight: 700;
-  color: #3a2400;
+  color: var(--on-accent);
   background: var(--gold);
   padding: 4px 12px;
   border-radius: 999px;
@@ -110,7 +110,7 @@
 
 .answerShown {
   border-style: solid;
-  border-color: rgba(255, 210, 94, 0.5);
+  border-color: rgba(245, 158, 11, 0.5);
   background: var(--gold-soft);
   animation: fadeUp 0.3s ease both;
 }
@@ -124,14 +124,14 @@
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: var(--gold-strong);
+  color: var(--gold-deep);
   margin-bottom: 6px;
 }
 
 .answer {
   font-size: 20px;
   font-weight: 700;
-  color: var(--gold);
+  color: var(--gold-deep);
   line-height: 1.45;
   word-break: keep-all;
 }
@@ -150,7 +150,7 @@
   font-size: 18px;
   font-weight: 700;
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-strong) 100%);
-  color: #3a2400;
+  color: var(--on-accent);
   box-shadow: 0 8px 22px rgba(245, 180, 35, 0.3);
   transition: transform 0.12s ease;
 }
