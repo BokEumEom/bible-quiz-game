@@ -10,11 +10,9 @@ export const screenVariants = {
   exit: { opacity: 0, x: -20, transition: { duration: 0.18, ease: 'easeIn' } }
 }
 
-// 문제 카드 등장: 아래에서 위로 페이드
-export const cardVariants = {
-  initial: { opacity: 0, y: 16 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.28, ease: 'easeOut' } }
-}
+// 문제 카드 전환: 다음/이전 방향에 따라 좌우에서 슬라이드 인
+// (key 기반 재마운트 + 방향값으로 initial x 결정)
+export const slideTransition = { duration: 0.3, ease: 'easeOut' }
 
 // 정답 공개: 스프링으로 살짝 튀어오름
 export const revealVariants = {

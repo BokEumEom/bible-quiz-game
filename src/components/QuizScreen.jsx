@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { cardVariants, revealVariants, tap } from '../motion'
+import { revealVariants, slideTransition, tap } from '../motion'
 import styles from './QuizScreen.module.css'
 
 // 입력값과 정답의 느슨한 일치 판단 (자가 채점 보조용)
@@ -11,14 +11,17 @@ function normalize(s) {
 export default function QuizScreen({ quiz, isReview = false, onExit }) {
   const { current, index, total, revealed, reveal, mark, goPrev } = quiz
   const [typed, setTyped] = useState('')
+  const [direction, setDirection] = useState(1) // 1: 다음, -1: 이전
   const progress = total > 0 ? ((index + 1) / total) * 100 : 0
 
   const handleMark = (verdict) => {
+    setDirection(1)
     setTyped('')
     mark(verdict)
   }
 
   const handlePrev = () => {
+    setDirection(-1)
     setTyped('')
     goPrev()
   }
@@ -52,9 +55,9 @@ export default function QuizScreen({ quiz, isReview = false, onExit }) {
       <motion.div
         className={styles.card}
         key={current.id}
-        variants={cardVariants}
-        initial="initial"
-        animate="animate"
+        initial={{ opacity: 0, x: direction * 56 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={slideTransition}
       >
         <div className={styles.meta}>
           <span className={styles.chapterBadge}>{current.chapter}장</span>

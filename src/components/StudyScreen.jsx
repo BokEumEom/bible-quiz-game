@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { cardVariants, tap } from '../motion'
+import { slideTransition, tap } from '../motion'
 import styles from './StudyScreen.module.css'
 
 // 학습 모드: 문제와 정답을 함께 보며 익힌다. 채점은 없다.
 export default function StudyScreen({ questions, onStartQuiz, onHome }) {
   const [index, setIndex] = useState(0)
+  const [direction, setDirection] = useState(1) // 1: 다음, -1: 이전
 
   const total = questions.length
   const current = questions[index] ?? null
@@ -14,8 +15,14 @@ export default function StudyScreen({ questions, onStartQuiz, onHome }) {
 
   if (!current) return null
 
-  const goPrev = () => setIndex((prev) => Math.max(0, prev - 1))
-  const goNext = () => setIndex((prev) => Math.min(total - 1, prev + 1))
+  const goPrev = () => {
+    setDirection(-1)
+    setIndex((prev) => Math.max(0, prev - 1))
+  }
+  const goNext = () => {
+    setDirection(1)
+    setIndex((prev) => Math.min(total - 1, prev + 1))
+  }
 
   return (
     <div className={styles.wrap}>
@@ -36,9 +43,9 @@ export default function StudyScreen({ questions, onStartQuiz, onHome }) {
       <motion.div
         className={styles.card}
         key={current.id}
-        variants={cardVariants}
-        initial="initial"
-        animate="animate"
+        initial={{ opacity: 0, x: direction * 56 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={slideTransition}
       >
         <div className={styles.meta}>
           <span className={styles.chapterBadge}>{current.chapter}장</span>
