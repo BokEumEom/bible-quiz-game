@@ -32,6 +32,31 @@ export function questionsByIds(ids) {
   return QUESTIONS.filter((item) => set.has(item.id))
 }
 
+// 정답 비교용 정규화 (공백 정리 + 소문자)
+function normAnswer(s) {
+  return s.replace(/\s+/g, ' ').trim().toLowerCase()
+}
+
+export function sameAnswer(a, b) {
+  return normAnswer(a) === normAnswer(b)
+}
+
+// 객관식 보기 생성: 정답 1 + 다른 문제 답에서 뽑은 오답 (count-1)개, 섞어서 반환.
+// 오답은 정답과 정규화 기준으로 중복되지 않게 고른다.
+export function buildOptions(question, count = 4) {
+  const seen = new Set([normAnswer(question.answer)])
+  const distractors = []
+  for (const q of shuffle(QUESTIONS)) {
+    if (q.id === question.id) continue
+    const key = normAnswer(q.answer)
+    if (seen.has(key)) continue
+    seen.add(key)
+    distractors.push(q.answer)
+    if (distractors.length === count - 1) break
+  }
+  return shuffle([question.answer, ...distractors])
+}
+
 // 점수에 따른 등급/격려 메시지.
 export function gradeFor(correct, total) {
   if (total === 0) {

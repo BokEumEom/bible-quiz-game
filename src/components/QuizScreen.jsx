@@ -1,40 +1,39 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { revealVariants, slideVariants, tap } from '../motion'
+import { slideVariants, tap } from '../motion'
+import { buildOptions, sameAnswer } from '../utils/quiz'
 import styles from './QuizScreen.module.css'
 
-// 입력값과 정답의 느슨한 일치 판단 (자가 채점 보조용)
-function normalize(s) {
-  return s.replace(/[\s.,·()]/g, '').toLowerCase()
-}
-
+// 객관식 4지선다 자동 채점 퀴즈.
 export default function QuizScreen({ quiz, isReview = false, onExit }) {
-  const { current, index, total, revealed, reveal, mark, goPrev } = quiz
-  const [typed, setTyped] = useState('')
+  const { current, index, total, mark, goPrev } = quiz
+  const [selected, setSelected] = useState(null)
   const [direction, setDirection] = useState(1) // 1: 다음, -1: 이전
   const progress = total > 0 ? ((index + 1) / total) * 100 : 0
+  const isLast = index === total - 1
 
-  const handleMark = (verdict) => {
-    setDirection(1)
-    setTyped('')
-    mark(verdict)
+  // 문제마다 보기를 한 번만 생성 (재렌더 시 순서 고정)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const options = useMemo(() => buildOptions(current), [current.id])
+
+  const answered = selected !== null
+  const isCorrect = answered && sameAnswer(selected, current.answer)
+
+  const choose = (opt) => {
+    if (!answered) setSelected(opt)
   }
 
-  const handlePrev = () => {
+  const next = () => {
+    setDirection(1)
+    mark(isCorrect ? 'correct' : 'wrong')
+    setSelected(null)
+  }
+
+  const prev = () => {
     setDirection(-1)
-    setTyped('')
+    setSelected(null)
     goPrev()
   }
-
-  // 입력값 채점: 'exact'(정확히 일치) | 'partial'(부분 일치) | 'miss'(불일치) | 'none'(입력 없음)
-  const judge = (() => {
-    if (!revealed || !typed.trim()) return 'none'
-    const t = normalize(typed)
-    const a = normalize(current.answer)
-    if (t === a) return 'exact'
-    if (a.includes(t) || t.includes(a)) return 'partial'
-    return 'miss'
-  })()
 
   return (
     <div className={styles.wrap}>
@@ -70,81 +69,57 @@ export default function QuizScreen({ quiz, isReview = false, onExit }) {
 
             <p className={styles.question}>{current.question}</p>
 
-            {!revealed ? (
-              <textarea
-                className={styles.board}
-                value={typed}
-                onChange={(e) => setTyped(e.target.value)}
-                placeholder="정답을 적어보세요 (선택)"
-                rows={2}
-                aria-label="정답 입력"
-              />
-            ) : (
-              <motion.div
-                className={styles.reveal}
-                variants={revealVariants}
-                initial="initial"
-                animate="animate"
-              >
-                {typed.trim() && (
-                  <div className={styles.myAnswer}>
-                    <span className={styles.revealLabel}>내 답</span>
-                    <p className={styles.myAnswerText}>{typed.trim()}</p>
-                  </div>
-                )}
-                <div className={styles.answerBox}>
-                  <span className={styles.answerLabel}>정답</span>
-                  <p className={styles.answer}>{current.answer}</p>
-                </div>
-                {judge === 'exact' && <p className={styles.hintMatch}>정답입니다! 🎉</p>}
-                {judge === 'partial' && (
-                  <p className={styles.hintPartial}>정답과 비슷해요 · 직접 확인하세요</p>
-                )}
-                {judge === 'miss' && (
-                  <p className={styles.hintMiss}>정답과 비교해 스스로 채점하세요</p>
-                )}
-              </motion.div>
-            )}
+            <div className={styles.options} role="group" aria-label="보기">
+              {options.map((opt) => {
+                const isAnswer = sameAnswer(opt, current.answer)
+                const isChosen = answered && sameAnswer(opt, selected)
+                const cls = !answered
+                  ? styles.option
+                  : isAnswer
+                    ? `${styles.option} ${styles.optCorrect}`
+                    : isChosen
+                      ? `${styles.option} ${styles.optWrong}`
+                      : `${styles.option} ${styles.optDim}`
+                return (
+                  <motion.button
+                    key={opt}
+                    className={cls}
+                    onClick={() => choose(opt)}
+                    disabled={answered}
+                    whileTap={answered ? undefined : tap}
+                  >
+                    <span className={styles.optMark}>
+                      {answered && isAnswer ? '○' : answered && isChosen ? '✕' : ''}
+                    </span>
+                    <span className={styles.optText}>{opt}</span>
+                  </motion.button>
+                )
+              })}
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>
 
       <div className={styles.controls}>
-        {!revealed ? (
-          <motion.button className={styles.revealBtn} onClick={reveal} whileTap={tap}>
-            정답 확인
-          </motion.button>
-        ) : judge === 'exact' ? (
-          // 정확히 일치하면 자동 정답 처리 — 자가 채점 불필요
+        {answered ? (
           <motion.button
-            className={styles.correctNext}
-            onClick={() => handleMark('correct')}
+            className={isCorrect ? styles.nextCorrect : styles.nextWrong}
+            onClick={next}
             whileTap={tap}
           >
-            정답! 다음 문제 →
+            {isCorrect
+              ? isLast
+                ? '정답! 결과 보기'
+                : '정답! 다음 문제 →'
+              : isLast
+                ? '결과 보기'
+                : '다음 문제 →'}
           </motion.button>
         ) : (
-          <div className={styles.verdictRow}>
-            <motion.button
-              className={`${styles.verdict} ${styles.wrongBtn}`}
-              onClick={() => handleMark('wrong')}
-              whileTap={tap}
-            >
-              ✕ 틀렸어요
-            </motion.button>
-            <motion.button
-              className={`${styles.verdict} ${styles.correctBtn}`}
-              onClick={() => handleMark('correct')}
-              whileTap={tap}
-            >
-              ○ 맞았어요
-            </motion.button>
-          </div>
+          <button className={styles.prev} onClick={prev} disabled={index === 0}>
+            ‹ 이전 문제
+          </button>
         )}
-
-        <button className={styles.prev} onClick={handlePrev} disabled={index === 0}>
-          ‹ 이전 문제
-        </button>
       </div>
     </div>
   )

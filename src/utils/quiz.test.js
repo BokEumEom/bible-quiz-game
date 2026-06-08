@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { shuffle, buildQuestionSet, gradeFor } from './quiz'
-import { TOTAL_QUESTIONS } from '../data/questions'
+import { shuffle, buildQuestionSet, buildOptions, sameAnswer, gradeFor } from './quiz'
+import { QUESTIONS, TOTAL_QUESTIONS } from '../data/questions'
 
 describe('shuffle', () => {
   it('원본 배열을 변경하지 않는다 (불변)', () => {
@@ -44,6 +44,36 @@ describe('buildQuestionSet', () => {
     const b = buildQuestionSet({ chapter: 2 })
     expect(a).toEqual(b)
     expect(a).not.toBe(b)
+  })
+})
+
+describe('buildOptions', () => {
+  const q = QUESTIONS[0] // 1번: 소스데네
+
+  it('보기 4개를 만든다', () => {
+    expect(buildOptions(q)).toHaveLength(4)
+  })
+
+  it('정답을 정확히 1번 포함한다', () => {
+    const opts = buildOptions(q)
+    const matches = opts.filter((o) => sameAnswer(o, q.answer))
+    expect(matches).toHaveLength(1)
+  })
+
+  it('보기는 서로 중복되지 않는다', () => {
+    const opts = buildOptions(q).map((o) => o.replace(/\s+/g, ' ').trim().toLowerCase())
+    expect(new Set(opts).size).toBe(opts.length)
+  })
+
+  it('count 인자로 보기 수를 조절한다', () => {
+    expect(buildOptions(q, 3)).toHaveLength(3)
+  })
+})
+
+describe('sameAnswer', () => {
+  it('공백·대소문자 무시하고 비교한다', () => {
+    expect(sameAnswer(' 복음 ', '복음')).toBe(true)
+    expect(sameAnswer('복음', '복음으로')).toBe(false)
   })
 })
 
