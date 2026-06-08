@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { TOTAL_QUESTIONS } from '../data/questions'
 import { tap } from '../motion'
+import bellImage from '../assets/home-golden-bell.webp'
 import styles from './HomeScreen.module.css'
 
 export default function HomeScreen({
@@ -18,9 +19,14 @@ export default function HomeScreen({
   return (
     <div className={styles.home}>
       <div className={styles.hero}>
-        <div className={styles.bell} aria-hidden="true">
-          🔔
-        </div>
+        <img
+          className={styles.heroImg}
+          src={bellImage}
+          alt="성경 위에 놓인 황금 종"
+          width="240"
+          height="240"
+          loading="eager"
+        />
         <p className={styles.eyebrow}>고린도전서 1~16장</p>
         <h1 className={styles.title}>성경 골든벨</h1>
         <p className={styles.subtitle}>
