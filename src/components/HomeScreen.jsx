@@ -18,15 +18,14 @@ export default function HomeScreen({
 
   return (
     <div className={styles.home}>
+      <div
+        className={styles.banner}
+        style={{ backgroundImage: `url(${bellImage})` }}
+        role="img"
+        aria-label="성경 위에 놓인 황금 종"
+      />
+
       <div className={styles.hero}>
-        <img
-          className={styles.heroImg}
-          src={bellImage}
-          alt="성경 위에 놓인 황금 종"
-          width="240"
-          height="240"
-          loading="eager"
-        />
         <p className={styles.eyebrow}>고린도전서 1~16장</p>
         <h1 className={styles.title}>성경 골든벨</h1>
         <p className={styles.subtitle}>

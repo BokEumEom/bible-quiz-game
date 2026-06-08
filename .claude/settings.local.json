@@ -17,7 +17,11 @@
       "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'fix: 문제 전환 깜박임 제거 - 좌우 슬라이드만 *)",
       "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'fix: 보드 입력 채점 정확도 개선 + 정확 입력 시 자동 정답 처리 *)",
       "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'feat: 문제 풀기를 객관식 4지선다 자동 채점으로 전환 *)",
-      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'feat: 홈 히어로에 골든벨 webp 이미지 적용 *)"
+      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'feat: 홈 히어로에 골든벨 webp 이미지 적용 *)",
+      "Bash(pkill -f esbuild)",
+      "Bash(pkill -x esbuild)",
+      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'chore: Vite 5 → 8, @vitejs/plugin-react 4 → 6 업그레이드 *)",
+      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'feat: 홈 히어로를 상단 배경 배너 + 크림 페이드로 변경 *)"
     ]
   }
 }

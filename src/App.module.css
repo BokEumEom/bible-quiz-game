@@ -27,5 +27,6 @@
     box-shadow: var(--shadow);
     background: rgba(255, 255, 255, 0.02);
     min-height: calc(100dvh - 48px);
+    overflow: hidden; /* 히어로 배너 full-bleed를 카드 둥근 모서리에 맞춰 잘라냄 */
   }
 }
