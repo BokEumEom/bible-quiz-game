@@ -49,6 +49,34 @@ describe('App 통합 — 오답 노트 흐름', () => {
     expect(screen.getByText('1문제')).toBeInTheDocument()
   })
 
+  it('정답을 정확히 입력하면 자동 정답 처리(맞았어요/틀렸어요 버튼 없음)', async () => {
+    render(<App />)
+    fireEvent.click(screen.getByText('✏️ 바로 문제 풀기'))
+    fireEvent.click(await screen.findByText('16장'))
+
+    // 16장 첫 문제(id 98)의 정답은 '디모데'
+    const input = await screen.findByLabelText('정답 입력')
+    fireEvent.change(input, { target: { value: '디모데' } })
+    fireEvent.click(screen.getByText('정답 확인'))
+
+    expect(await screen.findByText('정답입니다! 🎉')).toBeInTheDocument()
+    expect(screen.getByText('정답! 다음 문제 →')).toBeInTheDocument()
+    expect(screen.queryByText('○ 맞았어요')).not.toBeInTheDocument()
+  })
+
+  it('틀린 답을 입력하면 자가 채점 버튼이 나온다', async () => {
+    render(<App />)
+    fireEvent.click(screen.getByText('✏️ 바로 문제 풀기'))
+    fireEvent.click(await screen.findByText('16장'))
+
+    const input = await screen.findByLabelText('정답 입력')
+    fireEvent.change(input, { target: { value: '엉뚱한답' } })
+    fireEvent.click(screen.getByText('정답 확인'))
+
+    expect(await screen.findByText('○ 맞았어요')).toBeInTheDocument()
+    expect(screen.getByText('✕ 틀렸어요')).toBeInTheDocument()
+  })
+
   it('홈에 전체 최고 정답률이 기록된다', async () => {
     render(<App />)
     fireEvent.click(screen.getByText('✏️ 바로 문제 풀기'))

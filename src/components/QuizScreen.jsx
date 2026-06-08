@@ -26,15 +26,15 @@ export default function QuizScreen({ quiz, isReview = false, onExit }) {
     goPrev()
   }
 
-  // 입력이 있고 공개됐을 때만 일치 힌트 계산
-  const hint =
-    revealed && typed.trim()
-      ? (() => {
-          const t = normalize(typed)
-          const a = normalize(current.answer)
-          return t.length > 0 && (a.includes(t) || t.includes(a))
-        })()
-      : null
+  // 입력값 채점: 'exact'(정확히 일치) | 'partial'(부분 일치) | 'miss'(불일치) | 'none'(입력 없음)
+  const judge = (() => {
+    if (!revealed || !typed.trim()) return 'none'
+    const t = normalize(typed)
+    const a = normalize(current.answer)
+    if (t === a) return 'exact'
+    if (a.includes(t) || t.includes(a)) return 'partial'
+    return 'miss'
+  })()
 
   return (
     <div className={styles.wrap}>
@@ -96,10 +96,12 @@ export default function QuizScreen({ quiz, isReview = false, onExit }) {
                   <span className={styles.answerLabel}>정답</span>
                   <p className={styles.answer}>{current.answer}</p>
                 </div>
-                {hint !== null && (
-                  <p className={hint ? styles.hintMatch : styles.hintMiss}>
-                    {hint ? '정답과 비슷해요! 👍' : '정답과 비교해 스스로 채점하세요'}
-                  </p>
+                {judge === 'exact' && <p className={styles.hintMatch}>정답입니다! 🎉</p>}
+                {judge === 'partial' && (
+                  <p className={styles.hintPartial}>정답과 비슷해요 · 직접 확인하세요</p>
+                )}
+                {judge === 'miss' && (
+                  <p className={styles.hintMiss}>정답과 비교해 스스로 채점하세요</p>
                 )}
               </motion.div>
             )}
@@ -111,6 +113,15 @@ export default function QuizScreen({ quiz, isReview = false, onExit }) {
         {!revealed ? (
           <motion.button className={styles.revealBtn} onClick={reveal} whileTap={tap}>
             정답 확인
+          </motion.button>
+        ) : judge === 'exact' ? (
+          // 정확히 일치하면 자동 정답 처리 — 자가 채점 불필요
+          <motion.button
+            className={styles.correctNext}
+            onClick={() => handleMark('correct')}
+            whileTap={tap}
+          >
+            정답! 다음 문제 →
           </motion.button>
         ) : (
           <div className={styles.verdictRow}>

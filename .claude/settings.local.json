@@ -14,7 +14,8 @@
       "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'feat: framer-motion 애니메이션 적용 *)",
       "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'fix: 퀴즈 중도 종료\\(✕\\) 시에도 채점한 오답을 노트에 저장 *)",
       "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'feat: 문제 전환을 방향성 슬라이드 애니메이션으로 *)",
-      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'fix: 문제 전환 깜박임 제거 - 좌우 슬라이드만 *)"
+      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'fix: 문제 전환 깜박임 제거 - 좌우 슬라이드만 *)",
+      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'fix: 보드 입력 채점 정확도 개선 + 정확 입력 시 자동 정답 처리 *)"
     ]
   }
 }
