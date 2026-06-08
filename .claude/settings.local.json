@@ -21,7 +21,8 @@
       "Bash(pkill -f esbuild)",
       "Bash(pkill -x esbuild)",
       "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'chore: Vite 5 → 8, @vitejs/plugin-react 4 → 6 업그레이드 *)",
-      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'feat: 홈 히어로를 상단 배경 배너 + 크림 페이드로 변경 *)"
+      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'feat: 홈 히어로를 상단 배경 배너 + 크림 페이드로 변경 *)",
+      "Bash(git -c user.name=bokeum -c user.email=bokeum.eom@watercharging.com commit -q -m 'feat: 학습 동기부여 - 성장 지도 + 등급 시스템 *)"
     ]
   }
 }

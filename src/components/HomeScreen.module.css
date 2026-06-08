@@ -7,7 +7,7 @@
 /* 상단 히어로 배너: 이미지를 화면 폭/상단 가득 채우고 아래로 크림색 페이드 */
 .banner {
   flex-shrink: 0;
-  height: clamp(240px, 42vh, 380px);
+  height: clamp(200px, 36vh, 320px);
   margin: calc(-1 * (var(--safe-top) + 16px)) -20px 0;
   background-size: cover;
   background-position: center 40%;
@@ -58,16 +58,6 @@
 .subtitle strong {
   color: var(--gold-deep);
   font-weight: 700;
-}
-
-.bestLine {
-  margin-top: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--gold-deep);
-  background: var(--gold-soft);
-  padding: 4px 12px;
-  border-radius: 999px;
 }
 
 .wrongNote {

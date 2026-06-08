@@ -1,0 +1,65 @@
+.card {
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.grade {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--gold-deep);
+}
+
+.gradeIcon {
+  font-size: 18px;
+}
+
+.count {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.count strong {
+  color: var(--gold-deep);
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.bar {
+  display: flex;
+  gap: 3px;
+}
+
+.seg {
+  flex: 1;
+  height: 9px;
+  border-radius: 3px;
+  background: rgba(67, 50, 31, 0.1);
+}
+
+.segLearning {
+  background: var(--gold-soft);
+}
+
+.segMastered {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-strong) 100%);
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--text-dim);
+}

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { TOTAL_QUESTIONS } from '../data/questions'
 import { tap } from '../motion'
 import bellImage from '../assets/home-golden-bell.webp'
+import JourneyCard from './JourneyCard'
 import styles from './HomeScreen.module.css'
 
 export default function HomeScreen({
@@ -14,8 +15,6 @@ export default function HomeScreen({
   onQuiz,
   onReviewWrong
 }) {
-  const best = progress?.all?.best
-
   return (
     <div className={styles.home}>
       <div
@@ -31,8 +30,9 @@ export default function HomeScreen({
         <p className={styles.subtitle}>
           말씀으로 도전하는 <strong>{TOTAL_QUESTIONS}문제</strong>
         </p>
-        {typeof best === 'number' && <p className={styles.bestLine}>전체 최고 정답률 {best}%</p>}
       </div>
+
+      <JourneyCard progress={progress} />
 
       {error && <p className={styles.error}>{error}</p>}
 
